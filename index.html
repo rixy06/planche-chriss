@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>planche chriss — arborescence de Casper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0c0c0c;--fg:#cccccc;--dim:#7a7a7a;--yellow:#f9f1a5;--blue:#3b8eea;--ceram:#d9825b;--nourrit:#9b7ede;--racines:#7fb069}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:#1b1b1b;font-family:"JetBrains Mono",Consolas,monospace}
+  .win{max-width:820px;margin:24px auto;border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5);border:1px solid #333}
+  .bar{background:#202020;color:#ddd;font-size:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;font-family:Segoe UI,system-ui,sans-serif}
+  .bar .ic{width:14px;height:14px;background:#2671be;border-radius:3px}
+  .bar .sp{flex:1}
+  .bar i{display:inline-block;width:10px;height:10px;border:1px solid #888;margin-left:14px}
+  pre{margin:0;background:var(--bg);color:var(--fg);padding:16px 18px 28px;font-size:clamp(11px,3.1vw,15px);line-height:1.55;white-space:pre-wrap;word-break:break-word;min-height:70vh}
+  .y{color:var(--yellow)} .b{color:var(--blue)} .d{color:var(--dim)}
+  .c1{color:var(--ceram);font-weight:700} .c2{color:var(--nourrit);font-weight:700} .c3{color:var(--racines);font-weight:700}
+  .cur{display:inline-block;width:.55em;height:1.1em;background:var(--fg);vertical-align:text-bottom;animation:b 1s steps(1) infinite}
+  @keyframes b{50%{opacity:0}}
+  footer{text-align:center;color:#666;font-size:11px;padding:0 0 24px}
+  @media(max-width:600px){.win{margin:0;border-radius:0;border:0}}
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="bar"><span class="ic"></span>Windows PowerShell<span class="sp"></span><i></i><i></i><i></i></div>
+  <pre id="t"></pre>
+</div>
+<footer>Casper — planche de vie &amp; d'inspirations</footer>
+<script>
+const P='PS C:\\Users\\arata\\Desktop\\CASPER\\planche chriss> ';
+const steps=[
+  {html:'<span class="d">Windows PowerShell 5.1</span>\n\n'},
+  {html:'PS C:\\windows\\system32> '},
+  {type:'<span class="y">cd</span> <span class="b">"C:\\Users\\arata\\Desktop\\CASPER\\planche chriss"</span>', plain:'cd "C:\\Users\\arata\\Desktop\\CASPER\\planche chriss"'},
+  {html:'\n'+P},
+  {type:'<span class="y">tree</span> /f', plain:'tree /f'},
+  {html:'\n'},
+  {lines:[
+    'Structure du dossier pour le volume Windows',
+    'C:.',
+    '├───<span class="c1">1 la céramique</span>',
+    '│       3d impression ceram.png',
+    '│       atelier enfant.jpg',
+    '│       essais textures 2018.jpg',
+    '│       Hôtel à insecte en céramique.jpg',
+    '│       logo eacv.jpg',
+    '│',
+    '├───<span class="c2">2 ce qui me nourrit</span>',
+    '│       keny arkana la révolte.jpeg',
+    '│       keny arkana liberté.jpg',
+    '│       sonothérapie yoga.avif',
+    '│       stop motion enfance x animation.JPG',
+    '│',
+    '└───<span class="c3">3 les racines</span>',
+    '        antibes.jpg',
+    '        article temporalités BTSA.png',
+    '        gilles clément.jpg',
+    '        plantes médicinales.jpeg',
+    '        pochoirs les manifs.png',
+    ''
+  ]},
+  {html:'\n'+P+'<span class="cur"></span>'}
+];
+const el=document.getElementById('t');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sleep=ms=>new Promise(r=>setTimeout(r,reduce?0:ms));
+(async()=>{
+  let out='';
+  for(const s of steps){
+    if(s.html){ out+=s.html; el.innerHTML=out; await sleep(250); }
+    else if(s.type){
+      for(let i=1;i<=s.plain.length;i++){ el.innerHTML=out+s.plain.slice(0,i).replace(/</g,'&lt;')+'<span class="cur"></span>'; await sleep(28); }
+      out+=s.type; el.innerHTML=out; await sleep(350);
+    } else if(s.lines){
+      for(const l of s.lines){ out+=l+'\n'; el.innerHTML=out; await sleep(70); }
+    }
+  }
+})();
+</script>
+</body>
+</html>
